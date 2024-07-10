@@ -19,9 +19,14 @@ module.exports.check = [
       body.y >= character.y &&
       body.y <= character.y + character.height
     ) {
-      res.status(200).json("Character found");
+      res.status(200).json({
+        message: "Character found",
+        found: true,
+        x: character.x + character.width / 2.3,
+        y: character.y + character.height / 2.3,
+      });
     } else {
-      res.status(404).json("not correct");
+      res.status(200).json({ message: "not correct", found: false });
     }
   },
 ];

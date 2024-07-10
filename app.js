@@ -7,6 +7,7 @@ const cors = require("cors");
 require("./config/database.js");
 require("dotenv").config();
 
+// require("./character-script.js");
 const indexRouter = require("./routes/index");
 
 const app = express();
