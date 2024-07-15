@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-(async () => {
+const runDB = async () => {
   try {
     await mongoose.connect("mongodb://127.0.0.1:27017/test");
     mongoose.connection.on("error", (err) => {
@@ -9,4 +9,6 @@ const mongoose = require("mongoose");
   } catch (error) {
     console.log(error);
   }
-})();
+};
+
+module.exports.runDB = runDB;

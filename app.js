@@ -3,20 +3,41 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
-// require("./character-script.js");
-require("./config/database.js");
 require("dotenv").config();
 
 // require("./character-script.js");
 const indexRouter = require("./routes/index");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const { runDB } = require("./config/database");
 
+runDB();
 const app = express();
 
-const corsOptions = {
-  origin: "*",
-};
+// Cors setup
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    credentials: true,
+  }),
+);
 
-app.use(cors(corsOptions));
+// Session setup
+app.use(
+  session({
+    secret: process.env.SECRET,
+    saveUninitialized: true,
+    resave: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.DBURL,
+    }),
+    cookie: {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 2,
+    },
+  }),
+);
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
