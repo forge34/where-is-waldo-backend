@@ -1,6 +1,17 @@
 const { body } = require("express-validator");
 const CharacterModel = require("../models/character-model");
 
+module.exports.start = (req, res) => {
+  req.session.startTime = Date.now();
+  console.log(req.session);
+  res.json("test");
+};
+
+module.exports.end = (req, res) => {
+  console.log(Date.now() - Number(req.session.startTime));
+  res.json("timer end");
+};
+
 module.exports.check = [
   body("x").toInt().escape(),
   body("y").toInt().escape(),

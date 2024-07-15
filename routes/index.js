@@ -8,5 +8,7 @@ router.get("/", (res) => {
 });
 
 router.post("/check", gameController.check);
+router.get("/start", gameController.start);
+router.get("/end", gameController.end);
 
 module.exports = router;
