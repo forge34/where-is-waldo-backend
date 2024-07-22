@@ -1,5 +1,6 @@
-const { body } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 const CharacterModel = require("../models/character-model");
+const Users = require("../models/player-model");
 
 module.exports.start = (req, res) => {
   req.session.startTime = Date.now();
@@ -8,6 +9,7 @@ module.exports.start = (req, res) => {
 
 module.exports.end = (req, res) => {
   console.log(Date.now() - Number(req.session.startTime));
+  req.session.score = Date.now() - Number(req.session.startTime);
   res.json("timer end");
 };
 
@@ -46,5 +48,24 @@ module.exports.check = [
     } else {
       res.status(200).json({ message: "not correct", found: false });
     }
+  },
+];
+
+module.exports.save = [
+  body("playername").trim().isLength({ min: 1 }).escape(),
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.json({ errors: errors.array() });
+    }
+    const user = new Users({
+      name: req.body.playername,
+      score: req.session.score,
+    });
+
+    await user.save();
+
+    res.json("done");
   },
 ];
