@@ -11,5 +11,6 @@ router.post("/check", gameController.check);
 router.get("/start", gameController.start);
 router.get("/end", gameController.end);
 router.post("/save", gameController.save);
+router.get("/leaderboard", gameController.leaderboard);
 
 module.exports = router;

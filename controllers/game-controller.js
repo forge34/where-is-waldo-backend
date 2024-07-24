@@ -69,3 +69,9 @@ module.exports.save = [
     res.json("done");
   },
 ];
+
+module.exports.leaderboard = async (req, res, next) => {
+  const users = await Users.find().sort("score").exec();
+
+  res.json({ users: users });
+};
