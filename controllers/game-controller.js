@@ -27,6 +27,7 @@ module.exports.check = [
       .equals(body.name)
       .exec();
 
+    const margin = 1.03;
     const newX = character.x * req.body.width;
     const newY = character.y * req.body.height;
     const newWidth = character.width * req.body.width;
@@ -35,9 +36,9 @@ module.exports.check = [
     if (character === null) res.json("Character not found");
     else if (
       x >= newX &&
-      x <= newX + newWidth &&
+      x <= newX + newWidth * margin &&
       y >= newY &&
-      y <= newY + newHeight
+      y <= newY + newHeight * margin
     ) {
       res.status(200).json({
         message: "Character found",
