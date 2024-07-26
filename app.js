@@ -14,6 +14,7 @@ const { runDB } = require("./config/database");
 runDB();
 const app = express();
 
+app.set("trust proxy", 1);
 // Cors setup
 app.use(
   cors({
@@ -22,6 +23,7 @@ app.use(
   }),
 );
 
+const isDevMode = process.env.NODE_ENV === "development" ? true : false;
 // Session setup
 app.use(
   session({
@@ -33,8 +35,8 @@ app.use(
     }),
     cookie: {
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
+      sameSite: isDevMode ? "none" : "lax",
+      secure: isDevMode ? true : false,
       maxAge: 1000 * 60 * 60 * 2,
     },
   }),

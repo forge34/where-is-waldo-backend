@@ -8,7 +8,6 @@ module.exports.start = (req, res) => {
 };
 
 module.exports.end = (req, res) => {
-  console.log(Date.now() - Number(req.session.startTime));
   req.session.score = Date.now() - Number(req.session.startTime);
   res.json("timer end");
 };
@@ -71,7 +70,7 @@ module.exports.save = [
   },
 ];
 
-module.exports.leaderboard = async (req, res, next) => {
+module.exports.leaderboard = async (req, res) => {
   const users = await Users.find().sort("score").exec();
 
   res.json({ users: users });
